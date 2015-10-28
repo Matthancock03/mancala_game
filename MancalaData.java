@@ -1,4 +1,3 @@
-package cs151ProjectMancalaGame;
 
 public class MancalaData
 {
@@ -7,7 +6,7 @@ public class MancalaData
 	int stonesPerPit;
 	int player1;
 	int player2;
-	
+
 	public MancalaData(int sPP)
 	{
 		board = new int[14];
@@ -28,7 +27,7 @@ public class MancalaData
 
 	/**
 	 * Simulates picking a pit from the board.
-	 * 
+	 *
 	 * @param p
 	 * @param player
 	 * @return the integer value representing next player or 0 if game has
