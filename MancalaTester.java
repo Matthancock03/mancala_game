@@ -8,6 +8,8 @@ public class MancalaTester
 	{
 		//testing if game works properly
 		MancalaData mD = new MancalaData(4);
+		MancalaBoard board = new MancalaBoard(mD);
+
 		System.out.println("Player 1's turn");
 		mD.pickPit(0,1);
 		mD.pickPit(7,2);
