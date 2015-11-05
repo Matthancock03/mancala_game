@@ -27,7 +27,7 @@ class MancalaBoard extends JFrame implements ChangeListener{
   public void init(MancalaData data){
     this.data = data;
     setLocation(100,200);
-    Dimension binSize = new Dimension(150,350);
+    Dimension binSize = new Dimension(125,350);
     setLayout(new BorderLayout());
     JPanel user1Bin = new JPanel();
     JPanel user2Bin = new JPanel();
@@ -87,7 +87,7 @@ class MancalaBoard extends JFrame implements ChangeListener{
     JLabel b6 = new JLabel("B6");
 
 
-    a1.setBorder(lineBorder);
+    a1
     a2.setBorder(lineBorder);
     a3.setBorder(lineBorder);
     a4.setBorder(lineBorder);
@@ -131,6 +131,10 @@ class MancalaBoard extends JFrame implements ChangeListener{
     panel.add(a5);
     panel.add(a6);
 
+  }
+
+  public void stylePanel(JPanel panel){
+    panel.setBorder(lineBorder);
   }
 
 }
