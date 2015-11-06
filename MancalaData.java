@@ -1,3 +1,9 @@
+package mancala;
+
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class MancalaData
 {
@@ -6,9 +12,14 @@ public class MancalaData
 	int stonesPerPit;
 	int player1;
 	int player2;
-
+	
+	int activePlayer = 1;					//T: set default active player
+	ArrayList<ChangeListener> listeners;	//T: add listeners to datamodel
+	
 	public MancalaData(int sPP)
 	{
+		listeners = new ArrayList<ChangeListener>();
+		
 		board = new int[14];
 		stonesPerPit = sPP;
 		player1 = 1;
@@ -30,8 +41,7 @@ public class MancalaData
 	 *
 	 * @param p
 	 * @param player
-	 * @return the integer value representing next player or 0 if game has
-	 *         ended.
+	 * @return boolean to see if valid move.
 	 */
 	public int pickPit(int p, int player)
 	{
@@ -120,6 +130,9 @@ public class MancalaData
 					return 0;
 				}
 				System.out.println("Player " + ((player == 2) ? 1 : 2) + "'s turn");
+	
+				if (player == 2)
+					activePlayer = (player + 1) % 2;
 				return (player == 2) ? 1 : 2;
 			} else if ((stonesLeft == 0) && (player == 2) && (board[position] == 0) && (position > 6))
 			{
@@ -140,6 +153,8 @@ public class MancalaData
 					return 0;
 				}
 				System.out.println("Player " + ((player == 2) ? 1 : 2) + "'s turn");
+				if (player == 2)
+					activePlayer = (player + 1) % 2;
 				return (player == 2) ? 1 : 2;
 			}
 			board[position]++;
@@ -164,6 +179,8 @@ public class MancalaData
 			return 0;
 		}
 		System.out.println("Player " + ((player == 2) ? 1 : 2) + "'s turn");
+		if (player == 2)
+			activePlayer = (player + 1) % 2;
 		return (player == 2) ? 1 : 2;
 	}
 
@@ -278,4 +295,22 @@ public class MancalaData
 		}
 		System.out.println();
 	}
+	
+	//T: Controller implementation
+	   public void attach(ChangeListener c)
+	   {
+	      listeners.add(c);		// see MancalaTester2
+	   }
+
+	   /**
+			logic when a move is made
+	   */
+	   public void update(int pit)
+	   {
+	      pickPit(pit, activePlayer);
+	      for (ChangeListener l : listeners)
+	      {
+	    	  l.stateChanged(new ChangeEvent(this));	// MancalaBoard detects a change
+	      }
+	   }
 }

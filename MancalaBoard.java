@@ -1,3 +1,4 @@
+package mancala;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,10 @@ import java.util.ArrayList;
 class MancalaBoard extends JFrame implements ChangeListener{
   private static final int WIDTH = 900;
   private static final int HEIGHT = 400;
+  
+  
+  //private int activePlayer = 1;	//T: set default first player to 1
+  private Point mousePoint;		//T: supports mouseevents
 
   private Border lineBorder = LineBorder.createBlackLineBorder();
   private MancalaData data;
@@ -60,9 +65,26 @@ class MancalaBoard extends JFrame implements ChangeListener{
 
   public MouseListener listener(){
   return new MouseAdapter(){
-    public void mousePressed(MouseEvent e)
+    public void mousePressed(MouseEvent event)
       {
-        System.out.println("Clicked");
+    		//T: event handling
+	 		mousePoint = event.getPoint();
+
+	 		double x = mousePoint.getX();
+	 		double y = mousePoint.getY();
+	 		
+	 		//T: determine pit location
+	 		int pitSelected;
+	 		
+	 		if (x >= 0 && x <= 100 && y >= 40 && y <= 80)
+	 			pitSelected = (int) (x / 16.7);
+	 		else if (x >= 0 && x <= 100 && y >= 0 && y <= 40)
+	 			pitSelected = 13 - (int) (x / 16.7);
+	 		else
+	 			pitSelected = 14;
+	 		//T: make a move
+	 		System.out.println("Clicked at x: " + x + ", y: " + y + ". Pit is pit " + pitSelected);
+  	 		data.update(pitSelected);	// i is the row, value is the value
 
       }
     };
@@ -87,7 +109,7 @@ class MancalaBoard extends JFrame implements ChangeListener{
     JLabel b6 = new JLabel("B6");
 
 
-    a1
+    a1.setBorder(lineBorder);
     a2.setBorder(lineBorder);
     a3.setBorder(lineBorder);
     a4.setBorder(lineBorder);
