@@ -16,6 +16,10 @@ class MancalaBoard extends JFrame implements ChangeListener{
   private static final int WIDTH = 900;
   private static final int HEIGHT = 400;
 
+
+  //private int activePlayer = 1;	//T: set default first player to 1
+  private Point mousePoint;		//T: supports mouseevents
+
   private Border lineBorder = LineBorder.createBlackLineBorder();
   private MancalaData data;
   private JLabel[] bins = new JLabel[12];
@@ -88,13 +92,33 @@ class MancalaBoard extends JFrame implements ChangeListener{
 
   public MouseListener listener(int x){
   return new MouseAdapter(){
-    public void mousePressed(MouseEvent e)
+    public void mousePressed(MouseEvent event)
       {
+
         System.out.println("Clicked bin " + x);
         int stones = Integer.parseInt(bins[x - 1].getText());
         System.out.println("Number of stones in bin = " + stones);
         bins[x -1].setText(String.valueOf(stones - 1)); //Just testing.
 
+    	/*	//T: event handling
+	 		mousePoint = event.getPoint();
+
+	 		double x = mousePoint.getX();
+	 		double y = mousePoint.getY();
+
+	 		//T: determine pit location
+	 		int pitSelected;
+
+	 		if (x >= 0 && x <= 100 && y >= 40 && y <= 80)
+	 			pitSelected = (int) (x / 16.7);
+	 		else if (x >= 0 && x <= 100 && y >= 0 && y <= 40)
+	 			pitSelected = 13 - (int) (x / 16.7);
+	 		else
+	 			pitSelected = 14;
+	 		//T: make a move
+	 		System.out.println("Clicked at x: " + x + ", y: " + y + ". Pit is pit " + pitSelected);
+  	 		data.update(pitSelected);	// i is the row, value is the value
+        */
 
       }
     };
@@ -131,7 +155,6 @@ class MancalaBoard extends JFrame implements ChangeListener{
     stylePanel(b4, new Color(120, 240, 40));
     stylePanel(b5, new Color(120, 240, 40));
     stylePanel(b6, new Color(120, 240, 40));
-
 
     panel.add(b1);
     panel.add(b2);
