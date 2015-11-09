@@ -18,7 +18,7 @@ class MancalaBoard extends JFrame implements ChangeListener{
 
   private Border lineBorder = LineBorder.createBlackLineBorder();
   private MancalaData data;
-  private JPanel[] bins = new JPanel[12];
+  private JLabel[] bins = new JLabel[12];
 
   public MancalaBoard(MancalaData data){
     init(data);
@@ -26,6 +26,7 @@ class MancalaBoard extends JFrame implements ChangeListener{
 
   public void init(MancalaData data){
     this.data = data;
+    int numStones = 4;
     setLocation(100,200);
     Dimension binSize = new Dimension(125,350);
     setLayout(new BorderLayout());
@@ -33,19 +34,46 @@ class MancalaBoard extends JFrame implements ChangeListener{
     JPanel user2Bin = new JPanel();
     JPanel playingArea = new JPanel();
 
+    //Set up player 1 bin
     user1Bin.setPreferredSize(binSize);
     user1Bin.setBorder(lineBorder);
     user1Bin.setBackground(Color.lightGray);
+    JLabel user1Score = new JLabel("0");
+    stylePanel(user1Score, Color.lightGray);
+    user1Bin.add(user1Score);
 
+
+    //Set up player 2 bin
     user2Bin.setPreferredSize(binSize);
     user2Bin.setBorder(lineBorder);
     user2Bin.setBackground(Color.lightGray);
+    JLabel user2Score = new JLabel("0");
+    stylePanel(user2Score, Color.lightGray);
+    user2Bin.add(user2Score);
 
-    initializePlayingArea(playingArea);
+    //Header for game
+    JLabel header = new JLabel("Mancala");
+    header.setFont(header.getFont().deriveFont(30f));
+    header.setHorizontalAlignment(JLabel.CENTER);
+    header.setVerticalAlignment(JLabel.CENTER);
 
+    //Player initial input for game
+    JPanel input = new JPanel();
+    JLabel query = new JLabel("Select # of stones to begin game");
+    JButton threeStones = new JButton("3");
+    JButton fourStones = new JButton("4");
+    input.add(query);
+    input.add(threeStones);
+    input.add(fourStones);
+
+    initializePlayingArea(playingArea, numStones);
+
+    add(header,BorderLayout.NORTH);
     add(user1Bin,BorderLayout.WEST);
     add(user2Bin,BorderLayout.EAST);
     add(playingArea, BorderLayout.CENTER);
+    add(input,BorderLayout.SOUTH);
+
 
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,20 +86,24 @@ class MancalaBoard extends JFrame implements ChangeListener{
       repaint();
   }
 
-  public MouseListener listener(){
+  public MouseListener listener(int x){
   return new MouseAdapter(){
     public void mousePressed(MouseEvent e)
       {
-        System.out.println("Clicked");
+        System.out.println("Clicked bin " + x);
+        int stones = Integer.parseInt(bins[x - 1].getText());
+        System.out.println("Number of stones in bin = " + stones);
+        bins[x -1].setText(String.valueOf(stones - 1)); //Just testing.
+
 
       }
     };
   }
 
-  public void initializePlayingArea(JPanel panel){
+  public void initializePlayingArea(JPanel panel, int numStones){
     panel.setLayout(new GridLayout(0,6));
 
-    JLabel a1 = new JLabel("<html><body><center>A1</center></body></html>");
+    JLabel a1 = new JLabel("A1");
     JLabel a2 = new JLabel("A2");
     JLabel a3 = new JLabel("A3");
     JLabel a4 = new JLabel("A4");
@@ -86,29 +118,20 @@ class MancalaBoard extends JFrame implements ChangeListener{
     JLabel b5 = new JLabel("B5");
     JLabel b6 = new JLabel("B6");
 
+    stylePanel(a1, new Color(120, 240, 40));
+    stylePanel(a2, new Color(120, 240, 40));
+    stylePanel(a3, new Color(120, 240, 40));
+    stylePanel(a4, new Color(120, 240, 40));
+    stylePanel(a5, new Color(120, 240, 40));
+    stylePanel(a6, new Color(120, 240, 40));
 
-    a1
-    a2.setBorder(lineBorder);
-    a3.setBorder(lineBorder);
-    a4.setBorder(lineBorder);
-    a5.setBorder(lineBorder);
-    a6.setBorder(lineBorder);
-    //a1.setFont(a1.getFont().deriveFont(50f));
-    //a2.setFont(a2.getFont().deriveFont(50f));
-    //a3.setFont(a3.getFont().deriveFont(50f));
-    //a4.setFont(a4.getFont().deriveFont(50f));
-    //a5.setFont(a5.getFont().deriveFont(50f));
-    //a6.setFont(a6.getFont().deriveFont(50f));
-    a1.setHorizontalTextPosition(JLabel.CENTER);
+    stylePanel(b1, new Color(120, 240, 40));
+    stylePanel(b2, new Color(120, 240, 40));
+    stylePanel(b3, new Color(120, 240, 40));
+    stylePanel(b4, new Color(120, 240, 40));
+    stylePanel(b5, new Color(120, 240, 40));
+    stylePanel(b6, new Color(120, 240, 40));
 
-    b1.setHorizontalTextPosition(SwingConstants.RIGHT);
-
-    b1.setBorder(lineBorder);
-    b2.setBorder(lineBorder);
-    b3.setBorder(lineBorder);
-    b4.setBorder(lineBorder);
-    b5.setBorder(lineBorder);
-    b6.setBorder(lineBorder);
 
     panel.add(b1);
     panel.add(b2);
@@ -117,11 +140,19 @@ class MancalaBoard extends JFrame implements ChangeListener{
     panel.add(b5);
     panel.add(b6);
 
-    for(int x = 0; x < bins.length; x++){
-      bins[x] = new JPanel();
-      bins[x].setBorder(lineBorder);
-      bins[x].addMouseListener(listener());
-      panel.add(bins[x]);
+
+    for(int x = bins.length - 1; x >= 0; x--){
+      int index;
+      if(x > bins.length / 2 - 1){
+        index = x;
+      }else{
+        index = (bins.length / 2 - 1) - x;
+      }
+      System.out.println("Index = " + index);
+      bins[index] = new JLabel(String.valueOf(numStones));
+      stylePanel(bins[index], null);
+      bins[index].addMouseListener(listener(index + 1));
+      panel.add(bins[index]);
     }
 
     panel.add(a1);
@@ -133,8 +164,16 @@ class MancalaBoard extends JFrame implements ChangeListener{
 
   }
 
-  public void stylePanel(JPanel panel){
-    panel.setBorder(lineBorder);
+  public void stylePanel(JLabel component, Color c){
+    component.setBorder(lineBorder);
+    component.setFont(component.getFont().deriveFont(30f));
+    component.setHorizontalAlignment(JLabel.CENTER);
+    component.setVerticalAlignment(JLabel.CENTER);
+    if(c != null){
+      System.out.println("In color background");
+      component.setBackground(c);
+      component.setOpaque(true);
+    }
   }
 
 }
