@@ -1,3 +1,5 @@
+package mancala_game;
+
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -10,18 +12,23 @@ public class MancalaData
 	int stonesPerPit;
 	int player1;
 	int player2;
-
+	String special;
+	String status ;
 	int activePlayer = 1;					//T: set default active player
 	ArrayList<ChangeListener> listeners;	//T: add listeners to datamodel
-
-	public MancalaData(int sPP)
+	
+	public MancalaData()
 	{
 		listeners = new ArrayList<ChangeListener>();
 
 		board = new int[14];
-		stonesPerPit = sPP;
+		
 		player1 = 1;
 		player2 = 2;
+		
+	}
+	public void initMancala(int sPP){
+		stonesPerPit = sPP;
 		for (int i = 0; i < board.length; i++)
 		{ // Player 1's Mancala at position 6, and Player 2's at 13.
 			if ((i == (board.length - 1) / 2) || (i == board.length - 1))
@@ -33,32 +40,39 @@ public class MancalaData
 			}
 		}
 	}
-
 	/**
 	 * Simulates picking a pit from the board.
-	 *
+	 * 
 	 * @param p
 	 * @param player
-	 * @return boolean to see if valid move.
+	 * @return the integer value representing next player or 0 if game has
+	 *         ended.
 	 */
 	public int pickPit(int p, int player)
-	{
+	{	special = "";
 		int stonesLeft = board[p];
 		if (p == 6)
 		{
-			System.out.println("Cannot pick from player 1's Mancala, choose another pit player " + player);
+			status = "Cannot pick from player A's Mancala, choose another pit player " + player;
 			return player;
 		} else if (p == 13)
 		{
-			System.out.println("Cannot pick from player 2's Mancala, choose another pit player " + player);
+			status = "Cannot pick from player B's Mancala, choose another pit player " + player;
 			return player;
 		}
 		if (stonesLeft == 0)
 		{
-			System.out.println("Pit is empty, choose another pit player " + player);
+			status = "Pit is empty, choose another pit on side " + ((player ==1)? "A":"B");
 			return player;
 		}
-
+		if(player ==1 && (p>6)){
+			status = "Please pick on side A.";
+			return player;
+		}
+		if(player ==2 && (p<6)){
+			status = "Please pick on side B.";
+			return player;
+		}
 		int position = p + 1;
 		while (stonesLeft != 0)
 		{ // if player 1 reached player 2's Mancala, go back to pit 0.
@@ -82,14 +96,15 @@ public class MancalaData
 				board[position]++;
 				board[p] = 0;
 				testContent();
-				System.out.println("Last stone in current player's Mancala, player " + player + "'s turn again");
+				special = "Last stone in current player's Mancala, player A's turn again";
 				if (checkGameEnd())
 				{
 
-					System.out.println("Game has ended, check for winner.");
+					status = checkWinner();
 					testContent();
 					return 0;
 				}
+				status = "Player A's turn.";
 				return player;
 			}
 
@@ -98,14 +113,15 @@ public class MancalaData
 				board[position]++;
 				board[p] = 0;
 				testContent();
-				System.out.println("Last stone in current player's Mancala, player " + player + "'s turn again");
+				special = "Last stone in current player's Mancala, player B's turn again";
 				if (checkGameEnd())
 				{
 
-					System.out.println("Game has ended, check for winner.");
+					status = checkWinner();
 					testContent();
 					return 0;
 				}
+				status = "Player B's turn.";
 				return player;
 			}
 			// if last stone placed is in empty pit of current player, take
@@ -113,7 +129,8 @@ public class MancalaData
 			else if ((stonesLeft == 0) && (player == 1) && (board[position] == 0) && (position < 6))
 			{
 
-				System.out.println("Last stone in current player's empty pit, steal from other player's directly opposing pit");
+				special = "Last stone in current player's empty pit, add to your Mancala and steal from other player's directly opposing pit";
+				
 				board[(board.length - 1) / 2]++;
 				board[(board.length - 1) / 2] += board[12 - position];
 
@@ -123,11 +140,11 @@ public class MancalaData
 				if (checkGameEnd())
 				{
 
-					System.out.println("Game has ended, check for winner.");
+					status = checkWinner();
 					testContent();
 					return 0;
 				}
-				System.out.println("Player " + ((player == 2) ? 1 : 2) + "'s turn");
+				status = "Player " + ((player == 2) ? "A" : "B") + "'s turn.";
 
 				if (player == 2)
 					activePlayer = (player + 1) % 2;
@@ -135,7 +152,7 @@ public class MancalaData
 			} else if ((stonesLeft == 0) && (player == 2) && (board[position] == 0) && (position > 6))
 			{
 
-				System.out.println("Last stone in current player's empty pit, steal from other player's directly opposing pit");
+				special = "Last stone in current player's empty pit, add to your Mancala and steal from other player's directly opposing pit";
 
 				board[board.length - 1]++;
 				board[board.length - 1] += board[12 - position];
@@ -146,11 +163,11 @@ public class MancalaData
 				if (checkGameEnd())
 				{
 
-					System.out.println("Game has ended, check for winner.");
+					status =checkWinner();
 					testContent();
 					return 0;
 				}
-				System.out.println("Player " + ((player == 2) ? 1 : 2) + "'s turn");
+				status ="Player " + ((player == 2) ? "A" : "B") + "'s turn.";
 				if (player == 2)
 					activePlayer = (player + 1) % 2;
 				return (player == 2) ? 1 : 2;
@@ -172,13 +189,14 @@ public class MancalaData
 		if (checkGameEnd())
 		{
 
-			System.out.println("Game has ended, check for winner.");
+			status =checkWinner();
 			testContent();
 			return 0;
 		}
-		System.out.println("Player " + ((player == 2) ? 1 : 2) + "'s turn");
-		if (player == 2)
+		status ="Player " + ((player == 2) ? "A" : "B") + "'s turn.";
+		if (player == 2){
 			activePlayer = (player + 1) % 2;
+		}
 		return (player == 2) ? 1 : 2;
 	}
 
@@ -192,7 +210,7 @@ public class MancalaData
 			return board[board.length - 1];
 		} else
 		{
-			System.out.println("Invalid player, please enter 1 for player 1 or 2 for player 2.");
+			status ="Invalid player, please enter 1 for player A or 2 for player B.";
 			return 0;
 		}
 
@@ -201,26 +219,26 @@ public class MancalaData
 	 * Checks for winner.
 	 * @return 1 for player 1 won, 2 for player 2 won, 0 for tie, -1 for game has not ended yet.
 	 */
-	public int checkWinner()
+	public String checkWinner()
 	{
 		if (checkGameEnd())
 		{
 			if (getMancala(1) > getMancala(2))
 			{
-				System.out.println("Player 1 has won.");
-				return 1;
+				return "Player A has won.";
+				
 			} else if (getMancala(1) < getMancala(2))
 			{
-				System.out.println("Player 2 has won.");
-				return 2;
+				return "Player B has won.";
+				
 			} else if (getMancala(1) == getMancala(2))
 			{
-				System.out.println("It is a tie.");
-				return 0;
+				return "It is a tie.";
+				
 			}
 		}
 		System.out.println("Game has not ended yet.");
-		return -1;
+		return "";
 	}
 
 	private boolean checkGameEnd()
@@ -305,7 +323,8 @@ public class MancalaData
 	   */
 	   public void update(int pit)
 	   {
-	      pickPit(pit, activePlayer);
+		   activePlayer = pickPit(pit, activePlayer);
+	     
 	      for (ChangeListener l : listeners)
 	      {
 	    	  l.stateChanged(new ChangeEvent(this));	// MancalaBoard detects a change
