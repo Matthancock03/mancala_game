@@ -91,8 +91,8 @@ class MancalaBoard extends JFrame implements ChangeListener
 				}
 				
 				
-				status.setText("Move undone."+data.status);
-				special.setText(data.special);
+				status.setText("Move undone. "+data.status);
+				special.setText("");
 				for (int i = 0; i <bins.length; i++)
 				{ // Player 1's Mancala at position 6, and Player 2's at 13.
 					if ((i == (bins.length - 1) / 2) || (i == bins.length - 1))
