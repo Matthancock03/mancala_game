@@ -1,4 +1,4 @@
-package mancala_game;
+package mancala;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,12 +6,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.util.*;
+
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
 import java.util.List;
 import java.util.ArrayList;
@@ -26,7 +30,7 @@ class MancalaBoard extends JFrame implements ChangeListener
 	private Border lineBorder = LineBorder.createBlackLineBorder();
 	private MancalaData data;
 	private JLabel[] bins = new JLabel[14];
-	private int numStones = 4;
+	private int numStones;	//T: initially numStones = 0
 	private JLabel user1Score ;
 	private JLabel user2Score ;
 	private JLabel status ;
@@ -110,6 +114,8 @@ class MancalaBoard extends JFrame implements ChangeListener
 		});
 		input.add(undo);
 		
+		//data.initMancala(0);	//T: try testing with 0
+		
 		// Needs some work to get initialize 3 stones or 4 stones buttons to work
 		JButton threeStones = new JButton("3");
 		threeStones.addActionListener(new ActionListener()
@@ -121,6 +127,8 @@ class MancalaBoard extends JFrame implements ChangeListener
 				
 				data.initMancala(3);
 				
+				data.update(-1);
+				updateBoardLayout();
 			}
 
 		});
@@ -135,6 +143,8 @@ class MancalaBoard extends JFrame implements ChangeListener
 				
 				data.initMancala(4);
 				
+				data.update(-1);
+				updateBoardLayout();
 			}
 
 		});
@@ -143,8 +153,6 @@ class MancalaBoard extends JFrame implements ChangeListener
 		input.add(status);
 		input.add(special);
 		// Always init 4 stonesPerPit for now since 3 and 4 buttons do not work
-		data.initMancala(4);
-		
 		initializePlayingArea(playingArea, numStones);
 		
 		
@@ -182,39 +190,30 @@ class MancalaBoard extends JFrame implements ChangeListener
 				}
 				
 				data.update(x);
-				status.setText(data.status);
-				special.setText(data.special);
-				for (int i = 0; i <bins.length; i++)
-				{ // Player 1's Mancala at position 6, and Player 2's at 13.
-					if ((i == (bins.length - 1) / 2) || (i == bins.length - 1))
-					{
-						user2Score.setText(Integer.toString(data.getMancala(2)));
-						user1Score.setText(Integer.toString(data.getMancala(1)));
-					} else
-					{	
-						bins[i].setText(Integer.toString(data.board[i]));
-					}
-				}											// testing.
-				
-				/*
-				 * //T: event handling mousePoint = event.getPoint();
-				 * 
-				 * double x = mousePoint.getX(); double y = mousePoint.getY();
-				 * 
-				 * //T: determine pit location int pitSelected;
-				 * 
-				 * if (x >= 0 && x <= 100 && y >= 40 && y <= 80) pitSelected =
-				 * (int) (x / 16.7); else if (x >= 0 && x <= 100 && y >= 0 && y
-				 * <= 40) pitSelected = 13 - (int) (x / 16.7); else pitSelected
-				 * = 14; //T: make a move System.out.println("Clicked at x: " +
-				 * x + ", y: " + y + ". Pit is pit " + pitSelected);
-				 * data.update(pitSelected); // i is the row, value is the value
-				 */
-
+				updateBoardLayout();
+										// testing.
 			}
 		};
 	}
 
+	// helper method for initialization and after picking number of stones to use
+	private void updateBoardLayout()
+	{
+		status.setText(data.status);
+		special.setText(data.special);
+		for (int i = 0; i <bins.length; i++)
+		{ // Player 1's Mancala at position 6, and Player 2's at 13.
+			if ((i == (bins.length - 1) / 2) || (i == bins.length - 1))
+			{
+				user2Score.setText(Integer.toString(data.getMancala(2)));
+				user1Score.setText(Integer.toString(data.getMancala(1)));
+			} else
+			{	
+				bins[i].setText(Integer.toString(data.board[i]));
+			}
+		}	
+	}
+	
 	public void initializePlayingArea(JPanel panel, int numStones)
 	{
 		panel.setLayout(new GridLayout(0, 6));

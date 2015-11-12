@@ -1,4 +1,4 @@
-package mancala_game;
+package mancala;
 
 
 public class MancalaTester2

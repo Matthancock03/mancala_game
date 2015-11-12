@@ -1,4 +1,4 @@
-package mancala_game;
+package mancala;
 
 import java.util.ArrayList;
 
@@ -323,7 +323,8 @@ public class MancalaData
 	   */
 	   public void update(int pit)
 	   {
-		   activePlayer = pickPit(pit, activePlayer);
+		   if (pit != -1)
+			   activePlayer = pickPit(pit, activePlayer);
 	     
 	      for (ChangeListener l : listeners)
 	      {

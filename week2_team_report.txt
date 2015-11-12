@@ -1,0 +1,42 @@
+ << 2nd Team Weekly Report>>
+
+ Monday, 11/01 ~  10/07 
+ Team Name: NFG (Non-Functional Group)
+ Team leader of the week: Thien Van
+ Team members: Matthew Hancock, Thien Van, and Anthony Vo
+ 
+ Summary (written by the team leader) 
+For this week, more work was done on implementing the board view and controllers.
+A new tester class is used to extend testing for the GUI functionality.
+There is an issue about getting the correct coordinates with the mouselistener;
+with each pit represented as a panel, each panel when clicked on, returns
+the relative x and y coordinates, and makes it difficult to assign a panel.
+Future suggestions for resolution is to either rework the view to use a single 
+panel, or to redo the panel.
+
+Name: Matthew Hancock
+
+M: 11/02 	0 hours worked
+T: 11/03 	0 hours worked
+W: 11/04	3 hours worked: implemented a basic board view, to extend the working 
+R: 11/05 	0 hours worked
+F: 11/06 	0 hours worked
+A: 11/07 	0 hours worked
+
+Name: Thien Van
+
+M: 11/02 	0 hours worked
+T: 11/03 	0 hours worked
+W: 11/04	0 hours worked
+R: 11/05 	0 hours worked
+F: 11/06 	3 hours worked: continued work on implementing controllers, basic testing. Identified bug in MouseListener.
+A: 11/07 	0 hours worked
+
+Name: Anthony Vo
+
+M: 11/02 	0 hours worked
+T: 11/03 	0 hours worked
+W: 11/04	0 hours worked
+R: 11/05 	1 hours worked: wrote some java doc for the mancala game logic
+F: 11/06 	0 hours worked
+A: 11/07 	0 hours worked
