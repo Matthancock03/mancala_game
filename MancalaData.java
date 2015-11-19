@@ -1,4 +1,3 @@
-package mancala;
 
 import java.util.ArrayList;
 
@@ -16,16 +15,16 @@ public class MancalaData
 	String status ;
 	int activePlayer = 1;					//T: set default active player
 	ArrayList<ChangeListener> listeners;	//T: add listeners to datamodel
-	
+
 	public MancalaData()
 	{
 		listeners = new ArrayList<ChangeListener>();
 
 		board = new int[14];
-		
+
 		player1 = 1;
 		player2 = 2;
-		
+
 	}
 	public void initMancala(int sPP){
 		stonesPerPit = sPP;
@@ -42,7 +41,7 @@ public class MancalaData
 	}
 	/**
 	 * Simulates picking a pit from the board.
-	 * 
+	 *
 	 * @param p
 	 * @param player
 	 * @return the integer value representing next player or 0 if game has
@@ -130,7 +129,7 @@ public class MancalaData
 			{
 
 				special = "Last stone in current player's empty pit, add to your Mancala and steal from other player's directly opposing pit";
-				
+
 				board[(board.length - 1) / 2]++;
 				board[(board.length - 1) / 2] += board[12 - position];
 
@@ -226,15 +225,15 @@ public class MancalaData
 			if (getMancala(1) > getMancala(2))
 			{
 				return "Player A has won.";
-				
+
 			} else if (getMancala(1) < getMancala(2))
 			{
 				return "Player B has won.";
-				
+
 			} else if (getMancala(1) == getMancala(2))
 			{
 				return "It is a tie.";
-				
+
 			}
 		}
 		System.out.println("Game has not ended yet.");
@@ -325,7 +324,7 @@ public class MancalaData
 	   {
 		   if (pit != -1)
 			   activePlayer = pickPit(pit, activePlayer);
-	     
+
 	      for (ChangeListener l : listeners)
 	      {
 	    	  l.stateChanged(new ChangeEvent(this));	// MancalaBoard detects a change
