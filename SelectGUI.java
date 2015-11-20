@@ -1,4 +1,3 @@
-package mancala;
 
 import java.awt.BorderLayout;
 
@@ -14,17 +13,17 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class SelectGUI extends JFrame implements ChangeListener
-{   
+{
    private BoardTemplate bt;
    private MancalaData mD = new MancalaData();
-   
+
    /**
       Constructs a BarFrame object
       @param dataModel the data that is displayed in the barchart
    */
    public SelectGUI()
    {
-	   
+
 	  JPanel input = new JPanel();
 
       setLocation(0,200);
@@ -34,32 +33,32 @@ public class SelectGUI extends JFrame implements ChangeListener
       add(header, BorderLayout.NORTH);
       add(input, BorderLayout.SOUTH);
 
-      
+
       JButton aStyle = new JButton("Style A");
       aStyle.addActionListener(new ActionListener()
 		{
-	
+
 			public void actionPerformed(ActionEvent e)
 			{
 				bt = new MancalaBoardA(mD);
 			}
-	
+
 		});
-		
+
 		input.add(aStyle);
-		
+
 		JButton bStyle = new JButton("Style B");
 		bStyle.addActionListener(new ActionListener()
 		{
-	
+
 			public void actionPerformed(ActionEvent e)
-			{	
+			{
 				bt = new MancalaBoardB(mD);
 			}
-	
+
 		});
-		input.add(bStyle);	
-		     
+		input.add(bStyle);
+
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       pack();
       setVisible(true);
@@ -74,5 +73,3 @@ public class SelectGUI extends JFrame implements ChangeListener
 		mD.attach((ChangeListener) bt);
    }
 }
-
-

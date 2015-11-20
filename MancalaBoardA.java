@@ -1,4 +1,3 @@
-package mancala;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,20 +34,20 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 	}
 
 	public void init(MancalaData d)
-	{	
+	{
 		this.data = d;
-		
+
 		setLocation(100, 200);
 		Dimension binSize = new Dimension(125, 350);
 		setLayout(new BorderLayout());
 		JPanel user1Bin = new JPanel();
 		JPanel user2Bin = new JPanel();
 		JPanel playingArea = new JPanel();
-		
+
 		// Set up status and special, sometimes gets cut off, needs to be in a bigger space
 		status = new JLabel("Player A's turn");
 		special = new JLabel("");
-		
+
 		// Set up player 1 bin
 		user1Bin.setPreferredSize(binSize);
 		user1Bin.setBorder(lineBorder);
@@ -67,16 +66,16 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 
 		// Header for game
 		JLabel header = new JLabel("Mancala");
-		
+
 		header.setFont(header.getFont().deriveFont(30f));
 		header.setHorizontalAlignment(JLabel.CENTER);
 		header.setVerticalAlignment(JLabel.CENTER);
-		
+
 		// Player initial input for game
 		JPanel input = new JPanel();
 		JLabel query = new JLabel("Select # of stones to begin game");
 		input.add(query);
-			
+
 		JButton undo = new JButton("Undo");
 		undo.addActionListener(new ActionListener()
 		{
@@ -86,8 +85,8 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 				for(int i = 0; i < data.board.length;i++){
 					data.board[i] = undoArray[i];
 				}
-				
-				
+
+
 				status.setText("Move undone. "+data.status);
 				special.setText("");
 				for (int i = 0; i <bins.length; i++)
@@ -97,16 +96,16 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 						user2Score.setText(Integer.toString(data.getMancala(2)));
 						user1Score.setText(Integer.toString(data.getMancala(1)));
 					} else
-					{	
+					{
 						bins[i].setText(Integer.toString(data.board[i]));
 					}
-				}		
-				
+				}
+
 			}
 
 		});
 		input.add(undo);
-				
+
 		JButton threeStones = new JButton("3");
 		threeStones.addActionListener(new ActionListener()
 		{
@@ -114,10 +113,13 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 			public void actionPerformed(ActionEvent e)
 			{
 				numStones = 3;
-				
+
 				data.initMancala(3);
-				
+
 				data.update(-1);
+				threeStones.setEnabled(false);
+				fourStones.setEnabled(false);
+
 				updateBoardLayout();
 			}
 
@@ -130,10 +132,12 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 			public void actionPerformed(ActionEvent e)
 			{
 				numStones = 4;
-				
+
 				data.initMancala(4);
-				
+
 				data.update(-1);
+				fourStones.setEnabled(false);
+				threeStones.setEnabled(false);
 				updateBoardLayout();
 			}
 
@@ -143,22 +147,22 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		input.add(status);
 		input.add(special);
 		initializePlayingArea(playingArea, numStones);
-		
-		
+
+
 		add(header, BorderLayout.NORTH);
 		add(user1Bin, BorderLayout.EAST);
 		add(user2Bin, BorderLayout.WEST);
 		add(playingArea, BorderLayout.CENTER);
 		add(input, BorderLayout.SOUTH);
-		
-		
+
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
 		setVisible(true);
 	}
 
 	public void stateChanged(ChangeEvent e)
-	{	
+	{
 		repaint();
 	}
 
@@ -168,16 +172,16 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		{
 			public void mousePressed(MouseEvent event)
 			{
-				
+
 				System.out.println("Clicked bin " + x);
 				int stones = Integer.parseInt(bins[x ].getText());
 				System.out.println("Number of stones in bin = " + stones);
-				
+
 				//snapshot of array before choosing pit
 				for(int i = 0; i < data.board.length;i++){
 					undoArray[i] = data.board[i];
 				}
-				
+
 				data.update(x);
 				updateBoardLayout();
 			}
@@ -195,12 +199,12 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 				user2Score.setText(Integer.toString(data.getMancala(2)));
 				user1Score.setText(Integer.toString(data.getMancala(1)));
 			} else
-			{	
+			{
 				bins[i].setText(Integer.toString(data.board[i]));
 			}
-		}	
+		}
 	}
-	
+
 	public void initializePlayingArea(JPanel panel, int numStones)
 	{
 		panel.setLayout(new GridLayout(0, 6));
@@ -241,9 +245,9 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		panel.add(b1);
 
 		for (int x = bins.length -2; (x >(bins.length - 1) / 2 ); x--)
-		{	
-			
-			System.out.println("Index = " + x);
+		{
+
+			//System.out.println("Index = " + x);
 			bins[x] = new JLabel(String.valueOf(data.board[x]));
 			stylePanel(bins[x], null);
 			bins[x].addMouseListener(listener(x ));
@@ -251,8 +255,8 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		}
 		for (int x = 0; x <((bins.length - 1) / 2); x++)
 		{
-			
-			System.out.println("Index = " + x);
+
+			//System.out.println("Index = " + x);
 			bins[x] = new JLabel(String.valueOf(data.board[x]));
 			stylePanel(bins[x], null);
 			bins[x].addMouseListener(listener(x ));
@@ -275,7 +279,7 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		component.setVerticalAlignment(JLabel.CENTER);
 		if (c != null)
 		{
-			System.out.println("In color background");
+			//System.out.println("In color background");
 			component.setBackground(c);
 			component.setOpaque(true);
 		}

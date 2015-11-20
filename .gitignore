@@ -1,5 +1,2 @@
 .DS_Store
-MancalaData.class
-MancalaTester.class
-MancalaBoard.class
-MancalaBoard$1.class
+*.class
