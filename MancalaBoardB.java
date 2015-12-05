@@ -36,11 +36,22 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 	private JLabel status ;
 	private JLabel special;
 	private int[] undoArray = new int[14];
+	
+	/**
+	 * Set ups the Mancala Board View/Controller with the data model
+	 * @param d: data model
+	 */
 	public MancalaBoardB(MancalaData d)
 	{
 		init(d);
 	}
 
+	/**
+	 * Sets up the board view with BorderLayout and JPanels
+	 * representing the playing area. Also sets up the controller
+	 * action listeners
+	 * @param d: data model
+	 */
 	public void init(MancalaData d)
 	{
 		this.data = d;
@@ -164,11 +175,19 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 		setVisible(true);
 	}
 
+	/**
+	 * Controller that detects an event change and repaints the board view
+	 * to reflect the current data
+	 */
 	public void stateChanged(ChangeEvent e)
 	{
 		repaint();
 	}
 
+	/**
+	 * Controller that handles mouse pressed event
+	 * to update the data model
+	 */
 	public MouseListener listener(final int x)
 	{
 		return new MouseAdapter()
@@ -191,6 +210,9 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 		};
 	}
 
+	/**
+	 * helper method to update the board layout
+	 */
 	private void updateBoardLayout()
 	{
 		status.setText(data.status);
@@ -208,6 +230,11 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 		}
 	}
 
+	/**
+	 * initializes the playing area
+	 * @param panel: JPanels to indicate each pit representation
+	 * @param numStones: initializes the number of stones for each pit
+	 */
 	public void initializePlayingArea(JPanel panel, int numStones)
 	{
 		panel.setLayout(new GridLayout(0, 6));
@@ -274,6 +301,10 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 
 	}
 
+	/**
+	 * Defines the style of the board panels
+	 * with border, font and color options
+	 */
 	public void stylePanel(JLabel component, Color c)
 	{
 		component.setBorder(lineBorder);

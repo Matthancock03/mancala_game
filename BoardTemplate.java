@@ -14,6 +14,11 @@ import javax.swing.event.ChangeEvent;
  * Team NFG - Anthony Vo, Matthew Hancock, Thien Van
  *
  */
+
+/**
+ * Interface for each Board View/Controller
+ *
+ */
 public interface BoardTemplate
 {
 
