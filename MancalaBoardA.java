@@ -14,6 +14,14 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
+/**
+ * Mancala Project
+ * CS 151 Fall 2015 - Section 02
+ * 
+ * 12/05/2015
+ * Team NFG - Anthony Vo, Matthew Hancock, Thien Van
+ *
+ */
 class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 {
 	private static final int WIDTH = 1200;
@@ -28,11 +36,22 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 	private JLabel status ;
 	private JLabel special;
 	private int[] undoArray = new int[14];
+	
+	/**
+	 * Set ups the Mancala Board View/Controller with the data model
+	 * @param d: data model
+	 */
 	public MancalaBoardA(MancalaData d)
 	{
 		init(d);
 	}
 
+	/**
+	 * Sets up the board view with BorderLayout and JPanels
+	 * representing the playing area. Also sets up the controller
+	 * action listeners
+	 * @param d: data model
+	 */
 	public void init(MancalaData d)
 	{
 		this.data = d;
@@ -106,8 +125,13 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		});
 		input.add(undo);
 
+<<<<<<< HEAD
 		final JButton threeStones = new JButton("3");
 		final JButton fourStones = new JButton("4");
+=======
+		JButton threeStones = new JButton("3");
+		JButton fourStones = new JButton("4");
+>>>>>>> f6b2f2143af5f2fead6be407950175d23865e5b1
 
 		threeStones.addActionListener(new ActionListener()
 		{
@@ -127,6 +151,10 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 
 		});
 		input.add(threeStones);
+<<<<<<< HEAD
+=======
+		
+>>>>>>> f6b2f2143af5f2fead6be407950175d23865e5b1
 		fourStones.addActionListener(new ActionListener()
 		{
 
@@ -162,11 +190,19 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		setVisible(true);
 	}
 
+	/**
+	 * Controller that detects an event change and repaints the board view
+	 * to reflect the current data
+	 */
 	public void stateChanged(ChangeEvent e)
 	{
 		repaint();
 	}
 
+	/**
+	 * Controller that handles mouse pressed event
+	 * to update the data model
+	 */
 	public MouseListener listener(final int x)
 	{
 		return new MouseAdapter()
@@ -189,6 +225,9 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		};
 	}
 
+	/**
+	 * helper method to update the board layout
+	 */
 	private void updateBoardLayout()
 	{
 		status.setText(data.status);
@@ -206,6 +245,11 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		}
 	}
 
+	/**
+	 * initializes the playing area
+	 * @param panel: JPanels to indicate each pit representation
+	 * @param numStones: initializes the number of stones for each pit
+	 */
 	public void initializePlayingArea(JPanel panel, int numStones)
 	{
 		panel.setLayout(new GridLayout(0, 6));
@@ -272,6 +316,10 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 
 	}
 
+	/**
+	 * Defines the style of the board panels
+	 * with border, font and color options
+	 */
 	public void stylePanel(JLabel component, Color c)
 	{
 		component.setBorder(lineBorder);

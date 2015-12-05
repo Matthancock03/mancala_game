@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * Mancala Project
+ * CS 151 Fall 2015 - Section 02
+ * 
+ * 12/05/2015
+ * Team NFG - Anthony Vo, Matthew Hancock, Thien Van
+ *
+ */
 public class MancalaData
 {
 
@@ -14,6 +22,9 @@ public class MancalaData
 	int activePlayer = 1;					//T: set default active player
 	ArrayList<ChangeListener> listeners;	//T: add listeners to datamodel
 
+	/**
+	 * Mancala Data represents the amount of stones per pit at any given time
+	 */
 	public MancalaData()
 	{
 		listeners = new ArrayList<ChangeListener>();
@@ -24,6 +35,11 @@ public class MancalaData
 		player2 = 2;
 
 	}
+	
+	/**
+	 * Initialize the number of stones for each pit
+	 * @param sPP: number of stones selected
+	 */
 	public void initMancala(int sPP){
 		stonesPerPit = sPP;
 		for (int i = 0; i < board.length; i++)
@@ -197,6 +213,11 @@ public class MancalaData
 		return (player == 2) ? 1 : 2;
 	}
 
+	/**
+	 * Gets the number of stones in the mancala for the specified player
+	 * @param player
+	 * @return int: the number of stones in the mancala for the player
+	 */
 	public int getMancala(int player)
 	{
 		if (player == 1)
@@ -238,6 +259,11 @@ public class MancalaData
 		return "";
 	}
 
+	/**
+	 * Method to check if the has finished (no stones on either Player 1
+	 * or Player 2 side
+	 * @return boolean
+	 */
 	private boolean checkGameEnd()
 	{
 		int total = 0;
@@ -282,7 +308,7 @@ public class MancalaData
 	}
 
 	/**
-	 * prints content of board
+	 * prints content of board, used for debugging output to console
 	 */
 	public void testContent()
 	{
@@ -309,23 +335,27 @@ public class MancalaData
 		System.out.println();
 	}
 
-	//T: Controller implementation
-	   public void attach(ChangeListener c)
-	   {
-	      listeners.add(c);		// see MancalaTester2
-	   }
+	/**
+	 * Changelistener attachment
+	 * @param c
+	 */
+   public void attach(ChangeListener c)
+   {
+      listeners.add(c);		// see MancalaTester2
+   }
 
-	   /**
-			logic when a move is made
-	   */
-	   public void update(int pit)
-	   {
-		   if (pit != -1)
-			   activePlayer = pickPit(pit, activePlayer);
+   /**
+    * logic when a move is made
+    * @param pit
+    */
+   public void update(int pit)
+   {
+	   if (pit != -1)
+		   activePlayer = pickPit(pit, activePlayer);
 
-	      for (ChangeListener l : listeners)
-	      {
-	    	  l.stateChanged(new ChangeEvent(this));	// MancalaBoard detects a change
-	      }
-	   }
+      for (ChangeListener l : listeners)
+      {
+    	  l.stateChanged(new ChangeEvent(this));	// MancalaBoard detects a change
+      }
+   }
 }
