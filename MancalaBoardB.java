@@ -14,6 +14,14 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
+/**
+ * Mancala Project
+ * CS 151 Fall 2015 - Section 02
+ * 
+ * 12/05/2015
+ * Team NFG - Anthony Vo, Matthew Hancock, Thien Van
+ *
+ */
 class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 {
 	private static final int WIDTH = 1200;
