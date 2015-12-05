@@ -128,6 +128,8 @@ class MancalaBoard extends JFrame implements ChangeListener
 				data.initMancala(3);
 
 				data.update(-1);
+				fourStones.setEnabled(false);
+  			threeStones.setEnabled(false);
 				updateBoardLayout();
 			}
 
@@ -144,6 +146,8 @@ class MancalaBoard extends JFrame implements ChangeListener
 				data.initMancala(4);
 
 				data.update(-1);
+				fourStones.setEnabled(false);
+				threeStones.setEnabled(false);
 				updateBoardLayout();
 			}
 
