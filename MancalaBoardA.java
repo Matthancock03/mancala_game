@@ -106,7 +106,9 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 		});
 		input.add(undo);
 
-		JButton threeStones = new JButton("3");
+		final JButton threeStones = new JButton("3");
+		final JButton fourStones = new JButton("4");
+
 		threeStones.addActionListener(new ActionListener()
 		{
 
@@ -125,7 +127,6 @@ class MancalaBoardA extends JFrame implements BoardTemplate, ChangeListener
 
 		});
 		input.add(threeStones);
-		JButton fourStones = new JButton("4");
 		fourStones.addActionListener(new ActionListener()
 		{
 

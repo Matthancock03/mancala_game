@@ -117,25 +117,9 @@ class MancalaBoard extends JFrame implements ChangeListener
 		//data.initMancala(0);	//T: try testing with 0
 
 		// Needs some work to get initialize 3 stones or 4 stones buttons to work
-		JButton threeStones = new JButton("3");
-		threeStones.addActionListener(new ActionListener()
-		{
+		final JButton threeStones = new JButton("3");
+		final JButton fourStones = new JButton("4");
 
-			public void actionPerformed(ActionEvent e)
-			{
-				numStones = 3;
-
-				data.initMancala(3);
-
-				data.update(-1);
-				fourStones.setEnabled(false);
-  			threeStones.setEnabled(false);
-				updateBoardLayout();
-			}
-
-		});
-		input.add(threeStones);
-		JButton fourStones = new JButton("4");
 		fourStones.addActionListener(new ActionListener()
 		{
 
@@ -152,6 +136,25 @@ class MancalaBoard extends JFrame implements ChangeListener
 			}
 
 		});
+
+		threeStones.addActionListener(new ActionListener()
+		{
+
+			public void actionPerformed(ActionEvent e)
+			{
+				numStones = 3;
+
+				data.initMancala(3);
+
+				data.update(-1);
+				threeStones.setEnabled(false);
+				fourStones.setEnabled(false);
+				updateBoardLayout();
+			}
+
+		});
+
+		input.add(threeStones);
 		input.add(fourStones);
 		// added status and special to input, not sure where else to put it.
 		input.add(status);

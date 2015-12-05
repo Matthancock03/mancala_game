@@ -106,23 +106,9 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 		});
 		input.add(undo);
 
-		JButton threeStones = new JButton("3");
-		threeStones.addActionListener(new ActionListener()
-		{
-
-			public void actionPerformed(ActionEvent e)
-			{
-				numStones = 3;
-
-				data.initMancala(3);
-
-				data.update(-1);
-				updateBoardLayout();
-			}
-
-		});
-		input.add(threeStones);
-		JButton fourStones = new JButton("4");
+		final JButton threeStones = new JButton("3");
+		final JButton fourStones = new JButton("4");
+		
 		fourStones.addActionListener(new ActionListener()
 		{
 
@@ -133,10 +119,31 @@ class MancalaBoardB extends JFrame implements BoardTemplate, ChangeListener
 				data.initMancala(4);
 
 				data.update(-1);
+				fourStones.setEnabled(false);
+				threeStones.setEnabled(false);
 				updateBoardLayout();
 			}
 
 		});
+
+		threeStones.addActionListener(new ActionListener()
+		{
+
+			public void actionPerformed(ActionEvent e)
+			{
+				numStones = 3;
+
+				data.initMancala(3);
+
+				data.update(-1);
+				fourStones.setEnabled(false);
+				threeStones.setEnabled(false);
+				updateBoardLayout();
+			}
+
+		});
+
+		input.add(threeStones);
 		input.add(fourStones);
 		// added status and special to input, not sure where else to put it.
 		input.add(status);
